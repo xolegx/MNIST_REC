@@ -1,18 +1,27 @@
 from tkinter import *
-from PIL import Image, ImageDraw
+from PIL import Image
 
 
 def paint(event):
-    x1, y1 = (event.x-1), (event.y-1)
-    x2, y2 = (event.x+1), (event.y+1)
+    x1, y1 = (event.x-5), (event.y-5)
+    x2, y2 = (event.x+5), (event.y+5)
     cv.create_oval(x1, y1, x2, y2, fill='black', outline='black')
 
 
-win = Tk()
-cv = Canvas(win, width=280, height=280, bg='white')
+def save():
+    cv.postscript(file='draw.ps', colormode='color')
+    psimage = Image.open('draw.ps')
+    psimage.save('draw.png')
+    img = Image.open('draw.png')
+    resized_img = img.resize((28, 28), Image.ANTIALIAS)
+    resized_img.save('num.png')
+
+
+tk = Tk()
+cv = Canvas(tk, width=112, height=112)
 cv.bind('<B1-Motion>', paint)
 cv.pack()
-img = Image.new('RGB',(28, 28), (255, 255, 255))
-drw = ImageDraw.Draw(img)
-img.save('111.jpg')
-win.mainloop()
+btn_save = Button(text="save", command=save)
+btn_save.pack()
+
+tk.mainloop()
