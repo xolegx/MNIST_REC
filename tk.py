@@ -1,6 +1,6 @@
 from tkinter import *
 from PIL import Image
-import tensorflow as tf
+# import tensorflow as tf
 
 
 def paint(event):
